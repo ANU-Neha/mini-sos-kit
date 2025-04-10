@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini SOS Kit</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🛑 Mini SOS Kit</h1>
+
+    <div class="contact-form">
+      <h3>📇 Add Trusted Contact</h3>
+      <input type="text" id="contactName" placeholder="Name (e.g. Mom)" />
+      <input type="tel" id="contactPhone" placeholder="Phone (10 digits)" />
+      <button onclick="saveContact()">💾 Save Contact</button>
+    </div>
+
+    <div id="savedContacts">
+      <h3>📋 Saved Emergency Contacts</h3>
+      <ul id="contactList"></ul>
+    </div>
+
+    <button onclick="showHelplines()">📞 Emergency Helplines</button>
+    <button onclick="shareLocation()">📍 Share My Location</button>
+    <button onclick="sendAlert()">🚨 I Feel Unsafe</button>
+    <button onclick="makeMissedCalls()">📳 Silent Missed Call</button>
+    <button onclick="playAlertTune()">🔊 Play Alert Tune</button>
+
+    <audio id="alertAudio" src="alert.mp3" preload="auto"></audio>
+
+    <div id="output"></div>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-database.js"></script>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyD2Fc2GPzeoBVf5AWgysYAfGZbIYxSNbwE",
+      authDomain: "mini-sos-kit.firebaseapp.com",
+      projectId: "mini-sos-kit",
+      storageBucket: "mini-sos-kit.firebasestorage.app",
+      messagingSenderId: "470331895342",
+      appId: "1:470331895342:web:c5933a1bc9de50aadd39bf"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // When "I Feel Unsafe" is clicked, push alert to Firebase
+    function sendAlert() {
+      const alertRef = database.ref("alerts");
+      alertRef.push({
+        message: "🚨 SOS Triggered!",
+        timestamp: Date.now()
+      });
+
+      document.getElementById("output").innerText = "🚨 Alert sent to your saved contacts!";
+    }
+
+    // Listen for alerts in real-time
+    const alertsRef = database.ref("alerts");
+    alertsRef.on("child_added", (snapshot) => {
+      const data = snapshot.val();
+      if (data && data.timestamp) {
+        const audio = document.getElementById("alertAudio");
+        audio.play();
+        alert("🚨 SOS Alert Received!");
+      }
+    });
+  </script>
+
+  <script src="script.js"></script>
+</body>
+</html>
