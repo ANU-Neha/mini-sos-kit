@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini SOS Kit</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>🛑 Mini SOS Kit</h1>
+
+    <div class="contact-form">
+      <h3>📇 Add Trusted Contact</h3>
+      <input type="text" id="contactName" placeholder="Name (e.g. Mom)" />
+      <input type="tel" id="contactPhone" placeholder="Phone (10 digits)" />
+      <button onclick="saveContact()">💾 Save Contact</button>
+    </div>
+
+    <div id="savedContacts">
+      <h3>📋 Saved Emergency Contacts</h3>
+      <ul id="contactList"></ul>
+    </div>
+
+    <button onclick="showHelplines()">📞 Emergency Helplines</button>
+    <button onclick="shareLocation()">📍 Share My Location</button>
+    <button onclick="sendAlert()">🚨 I Feel Unsafe</button>
+    <button onclick="makeMissedCalls()">📳 Silent Missed Call</button>
+    <button onclick="playAlertTune()">🔊 Play Alert Tune</button>
+
+    <audio id="alertAudio" src="alert.mp3" preload="auto"></audio>
+
+    <div id="output"></div>
+  </div>
+
+  <script src="script.js"></script>
+  <audio id="alertAudio" src="alert.mp3" preload="auto"></audio>
+</body>
+</html>
